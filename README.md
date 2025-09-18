@@ -1,12 +1,13 @@
 # Elmo Hikes
 
-## Overview
 
+## Overview
 Elmo Hikes is a client-side JavaScript web application that helps users discover and explore hiking trails. The app displays a curated list of hike trails, each with details such as name, location, difficulty, and an image. Users can browse the list and mark their favorite trails for easy access later.
 
 Developed for the COMP 1800 course, this project applies User-Centred Design practices and agile project management, and demonstrates integration with Firebase backend services for storing user favorites.
 
 ---
+
 
 ## Features
 
@@ -17,16 +18,17 @@ Developed for the COMP 1800 course, this project applies User-Centred Design pra
 
 ---
 
+
 ## Technologies Used
 
 Example:
-
 - **Frontend**: HTML, CSS, JavaScript
 - **Build Tool**: [Vite](https://vitejs.dev/)
 - **Backend**: Firebase for hosting
 - **Database**: Firestore
 
 ---
+
 
 ## Usage
 
@@ -36,6 +38,7 @@ Example:
 4. View your favorite hikes in the favorites section.
 
 ---
+
 
 ## Project Structure
 
@@ -54,18 +57,17 @@ elmo-hikes/
 
 ---
 
-## Contributors
 
-- **Salahuddin Yunus** - BCIT CST Student with a passion for fitness and cybersecurity. Fun fact: Has 3 kitty cats. :3
+## Contributors
 - **Your Name** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
 - **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
-- **Kenny Fok** - BCIT CST Student with a passion for creating things. Fun fact: Has been to 10+ countries.
-- **Arsen Madi** - BCIT CST Student with a passion for learning new things. Fun Fact: I speak 4 languages
+- **Kenny Fok** - BCIT CST Student with a passion for creating things that make more efficient. Fun fact: Has been to 10+ countries.
 
 - **Avery Robillo** - Former High School student, now attending BCIT under the CST program. Fun fact:
-Former Tetris Competitive Player. 
+Former Tetris Competitive Player (2022 - 2024).
 
 ---
+
 
 ## Acknowledgments
 
@@ -75,8 +77,8 @@ Former Tetris Competitive Player.
 
 ---
 
-## Limitations and Future Work
 
+## Limitations and Future Work
 ### Limitations
 
 - Limited trail details (e.g., no live trail conditions).
@@ -89,6 +91,7 @@ Former Tetris Competitive Player.
 - Create a dark mode for better usability in low-light conditions.
 
 ---
+
 
 ## License
 
