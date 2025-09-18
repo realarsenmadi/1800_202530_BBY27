@@ -61,6 +61,9 @@ elmo-hikes/
 - **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
 - **Kenny Fok** - BCIT CST Student with a passion for creating things that make more efficient. Fun fact: Has been to 10+ countries.
 
+- **Avery Robillo** - Former High School student, now attending BCIT under the CST program. Fun fact:
+Former Tetris Competitive Player. 
+
 ---
 
 ## Acknowledgments
