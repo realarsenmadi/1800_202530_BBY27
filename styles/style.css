@@ -1,11 +1,30 @@
-.navbar{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+@font-face {
+  font-family: "Super Joyful";
+  src: url("../fonts/SuperJoyful.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
-.navbar a{
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-    padding: 10px;
+
+html,
+body {
+  font-family: "Super Joyful", serif;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.jumbotron {
+  font-size: 6rem;
+  align-items: center;
+  justify-items: center;
 }
