@@ -24,6 +24,16 @@ body {
   font-size: 24px;
 }
 
+.index-login-button {
+  display: flex;
+  justify-content: center;
+}
+
+.footer{
+  display: flex;
+  justify-content: center;  
+}
+
 .jumbotron {
   font-size: 6rem;
   align-items: center;
