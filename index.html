@@ -22,37 +22,37 @@
       </div>
       <!-- Navigation bar right side -->
       <div>
-        <a href="#">🏠︎</a>
+        <a href="#">
+          <img src="./images/home_icon.png" alt="Home Icon"class="home-icon"/>
+        </a>
       </div>
     </nav>
 
     <!-- Welcome Banner -->
     <div class="jumbotron">
       <h2>SureSpot</h2>
-        <div>
-          <p>Stress less about parking.</p>
-            <div class="index-login-button">
-                <!-- Make this button clickable, using onclick event listener -->
-                <button onclick="window.location.href='login.html'" type="button" >
-                    Login/Signup
-                </button>
-            </div>
-        </div>
     </div>
 
-    <!------------------------------>
-    <!-- Your HTML Layout go here -->
-    <!------------------------------>
-    <!-- Stuff for body goes here -->
+    <!-- Login Button-->
+    <div class="index-login-button">
+      <button onclick="window.location.href='login.html'">Login / Signup</button>
+    </div>
+    <div class="guest-login-button">
+      <button class="guest-button" onclick="window.location.href='main.html'">Continue as Guest</button>
+    </div>
+    
+    <br/>
 
+    <!-- Footer -->
+    <footer class="footer">
+      &copy; 2025 BCIT COMP 1800 BB27
+    </footer>
     <!---------------------------------------------->
     <!-- Your own JavaScript functions go here    -->
     <!---------------------------------------------->
 
     <!-- Link to scripts of your own -->
     <!-- <script type="module" src="./src/main.js"></script> -->
-     <footer class="footer">
-      &copy; 2025 BCIT COMP 1800 BB27
-     </footer>
+
   </body>
 </html>

@@ -5,37 +5,95 @@
   font-style: normal;
 }
 
-html,
-body {
+html, body {
   font-family: "Super Joyful", serif;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* stack navbar, jumbotron, login, footer vertically */
 }
 
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 20px;
 }
 
-.navbar a {
+.navbar img.home-icon {
   text-decoration: none;
   color: black;
-  font-weight: bold;
-  padding: 10px;
-  font-size: 24px;
+  width: 2.5vw;
 }
 
+/* Jumbotron */
+.jumbotron {
+  text-align: center;
+  font-size: 8rem;
+}
+
+/* Login button */
 .index-login-button {
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* stack buttons vertically */
+  align-items: center;    /* center horizontally */
 }
 
-.footer{
+.index-login-button button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.index-login-button button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.index-login-button button:active {
+  transform: scale(0.98);
+}
+
+/* Guest button different color */
+.guest-login-button {
   display: flex;
-  justify-content: center;  
+  flex-direction: column; /* stack buttons vertically */
+  align-items: center;    /* center horizontally */
+  margin: 20px 0;
+}
+.guest-login-button button {
+  background-color: #5d82aa;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.jumbotron {
-  font-size: 6rem;
-  align-items: center;
-  justify-items: center;
+.guest-login-button button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.guest-login-button button:active {
+  transform: scale(0.98);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 10px;
+  background: #f2f2f2;
+  font-size: 1rem;
+  margin-top: auto; /* pushes footer to bottom if page is tall */
 }
