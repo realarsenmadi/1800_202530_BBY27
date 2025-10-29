@@ -5,6 +5,18 @@
   font-style: normal;
 }
 
+.back-button {
+  font-size: 2.5em;
+  text-decoration: none;
+  color: black;
+}
+
+.back-button {
+  font-size: 2.5em;
+  text-decoration: none;
+  color: black;
+}
+
 html,
 body {
   font-family: "Super Joyful", serif;
@@ -27,16 +39,17 @@ body {
   padding: 10px 20px;
 }
 
-.navbar img.home-icon {
+/* Home icon */
+.home-icon {
   text-decoration: none;
   color: black;
-  width: 2.5vw;
+  width: 2.5em;
 }
 
 /* Jumbotron */
 .jumbotron {
   text-align: center;
-  font-size: 8rem;
+  font-size: 8vw;
 }
 
 /* Login button */
@@ -109,4 +122,65 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+}
+
+/* FAQ PAGE STYLES */
+
+/* Center and size the FAQ content */
+.faq-section {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Each FAQ box */
+.faq-item {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for interactivity */
+.faq-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Question title */
+.faq-item h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* Answer text */
+.faq-item p {
+  font-size: 1.25rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Consistent page banner */
+.faq-header {
+  margin: 0;
+  color: black;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Make sure the footer stays consistent across pages */
+.footer {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 0.9rem;
+  background-color: #f2f2f2;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
