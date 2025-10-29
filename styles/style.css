@@ -108,6 +108,43 @@ body {
   transform: scale(0.98);
 }
 
+/* Search and Filter Section */
+/* .search-functions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  margin-top: auto;
+} */
+
+.search-functions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 200px; /* adjust so it sits above footer */
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
+  z-index: 50;
+}
+
+.filter-icon,
+.search-button {
+  width: 3em; /* adjust icon size */
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* Icon Hover */
+.filter-icon:hover,
+.search-button:hover,
+.bottom-nav img:hover,
+.home-icon:hover,
+.back-button:hover {
+  transform: scale(1.1);
+}
+
 /* Footer */
 .footer {
   text-align: center;
