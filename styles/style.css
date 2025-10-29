@@ -5,12 +5,18 @@
   font-style: normal;
 }
 
-html, body {
+html,
+body {
   font-family: "Super Joyful", serif;
   height: 100%;
   margin: 0;
   display: flex;
   flex-direction: column; /* stack navbar, jumbotron, login, footer vertically */
+}
+
+/* Background for Main Page */
+.main-page {
+  background-image: url("../images/placeholder.jpg");
 }
 
 /* Navbar */
@@ -37,7 +43,7 @@ html, body {
 .index-login-button {
   display: flex;
   flex-direction: column; /* stack buttons vertically */
-  align-items: center;    /* center horizontally */
+  align-items: center; /* center horizontally */
 }
 
 .index-login-button button {
@@ -49,12 +55,12 @@ html, body {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .index-login-button button:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .index-login-button button:active {
@@ -65,7 +71,7 @@ html, body {
 .guest-login-button {
   display: flex;
   flex-direction: column; /* stack buttons vertically */
-  align-items: center;    /* center horizontally */
+  align-items: center; /* center horizontally */
   margin: 20px 0;
 }
 .guest-login-button button {
@@ -77,12 +83,12 @@ html, body {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .guest-login-button button:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .guest-login-button button:active {
@@ -96,4 +102,11 @@ html, body {
   background: #f2f2f2;
   font-size: 1rem;
   margin-top: auto; /* pushes footer to bottom if page is tall */
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
 }
