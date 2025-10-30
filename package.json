@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "firebase": "^12.4.0"
+    "firebase": "^12.4.0",
+    "mapbox-gl": "^3.16.0"
   }
 }
