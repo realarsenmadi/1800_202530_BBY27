@@ -26,11 +26,6 @@ body {
   flex-direction: column; /* stack navbar, jumbotron, login, footer vertically */
 }
 
-/* Background for Main Page */
-.main-page {
-  background-image: url("../images/placeholder.jpg");
-}
-
 /* Navbar */
 .navbar {
   display: flex;
@@ -107,6 +102,17 @@ body {
 .guest-login-button button:active {
   transform: scale(0.98);
 }
+
+/* Map Container */
+#map {
+  width: 100%;
+  height: calc(100vh - 150px);
+  border-radius: 12px;
+  margin-top: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+
 
 /* Search and Filter Section */
 /* .search-functions {
