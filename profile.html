@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SureSpot</title>
+    <meta name="comp1800 template" content="My 1800 App" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Other libraries go here -->
+
+    <!-- Link to styles of your own -->
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <nav class="navbar">
+      <div>
+        <a class="back-button" href="main.html">⬅</a>
+      </div>
+      <div>
+        <a href="index.html">
+          <img class="home-icon" src="./images/home_icon.png" alt="Home Icon" />
+        </a>
+      </div>
+    </nav>
+
+    <!-- Page Banner -->
+    <div class="profile-header">
+      <h2>Profile Settings</h2>
+    </div>
+
+    <!-- Profile Settings -->
+    <div class="profile-settings">
+      <form id="profile-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Enter your name" required />
+
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required
+        />
+
+        <label for="password">New Password:</label>
+        <input type="password" id="password" placeholder="Enter new password" />
+
+        <button type="submit">Save Changes</button>
+      </form>
+
+      <div class="toggle-container">
+        <label>
+          <input type="checkbox" id="theme-toggle" />
+          Dark Mode
+        </label>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">&copy; 2025 BCIT COMP 1800 BB27</footer>
+
+    <!---------------------------------------------->
+    <!-- Your own JavaScript functions go here    -->
+    <!---------------------------------------------->
+
+    <!-- Link to scripts of your own -->
+    <script type="module" src="./src/profile.js"></script>
+  </body>
+</html>
