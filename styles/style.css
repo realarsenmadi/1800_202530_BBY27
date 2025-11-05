@@ -166,7 +166,7 @@ h3 #searchModal {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 200px; /* adjust so it sits above footer */
+  bottom: 200px;
   display: flex;
   justify-content: space-around;
   gap: 40px;
@@ -175,7 +175,7 @@ h3 #searchModal {
 
 .filter-icon,
 .search-button {
-  width: 3em; /* adjust icon size */
+  width: 3em;
   height: auto;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -196,7 +196,7 @@ h3 #searchModal {
   padding: 10px;
   background: #f2f2f2;
   font-size: 1rem;
-  margin-top: auto; /* pushes footer to bottom if page is tall */
+  margin-top: auto;
 }
 
 .bottom-nav {
@@ -254,6 +254,71 @@ h3 #searchModal {
   color: black;
   font-size: 2rem;
   text-align: center;
+}
+
+/* Profile page settings */
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --card-bg: #f2f2f2;
+}
+
+body.dark-mode {
+  --bg: #111111;
+  --text: #f2f2f2;
+  --card-bg: #1c1c1c;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--card-bg);
+}
+
+.profile-header {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.profile-settings {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-settings label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.profile-settings input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.profile-settings button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.toggle-container {
+  text-align: center;
+  margin-top: 30px;
 }
 
 /* Make sure the footer stays consistent across pages */
