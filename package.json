@@ -9,5 +9,11 @@
   },
   "devDependencies": {
     "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "@mapbox/search-js-web": "^1.5.0",
+    "bootstrap": "^5.3.8",
+    "firebase": "^12.4.0",
+    "mapbox-gl": "^3.16.0"
   }
 }
