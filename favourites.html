@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SureSpot | Favourites</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <nav class="navbar">
+      <div>
+        <a class="back-button" href="main.html">⬅</a>
+      </div>
+      <div>
+        <a href="index.html">
+          <img class="home-icon" src="./images/home_icon.png" alt="Home Icon" />
+        </a>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="faq-header">
+      <h2>Favourite Spots</h2>
+    </div>
+
+    <!-- Add Favourite Form -->
+    <main class="faq-section">
+      <div class="faq-item">
+        <h3>Add New Favourite</h3>
+        <form id="favForm">
+          <label for="label">Label (e.g. Home, Work):</label><br />
+          <input type="text" id="label" required /><br /><br />
+
+          <label for="address">Address:</label><br />
+          <input type="text" id="address" required /><br /><br />
+
+          <button type="submit">Save Favourite</button>
+        </form>
+      </div>
+
+      <!-- Saved Favourites -->
+      <div class="faq-item">
+        <h3>Saved Favourites</h3>
+        <ul id="favList"></ul>
+      </div>
+    </main>
+
+    <footer class="footer">&copy; 2025 BCIT COMP 1800 BB27</footer>
+    <script type="module" src="./src/favourites.js"></script>
+  </body>
+</html>

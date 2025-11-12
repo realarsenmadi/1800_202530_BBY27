@@ -94,7 +94,7 @@
           </a>
         </div>
         <div>
-          <a href="favorites.html">
+          <a href="favourites.html">
             <img
               src="./images/Favourites.png"
               alt="Favourites Icon"
@@ -113,9 +113,9 @@
     <!-- JavaScript -->
     <script>
       // Wait for DOM to be fully loaded
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded, initializing map...');
-        
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM loaded, initializing map...");
+
         const map = new maplibregl.Map({
           container: "map",
           style:
@@ -134,15 +134,17 @@
         // Add BCIT marker
         new maplibregl.Marker({ color: "#ff0000" })
           .setLngLat([-123.0016, 49.2505])
-          .setPopup(new maplibregl.Popup().setHTML("<b>BCIT Burnaby Campus</b>"))
+          .setPopup(
+            new maplibregl.Popup().setHTML("<b>BCIT Burnaby Campus</b>")
+          )
           .addTo(map);
 
         // Locate Me Button functionality
         const locateBtn = document.getElementById("locateBtn");
-        console.log('Locate button:', locateBtn);
-        
+        console.log("Locate button:", locateBtn);
+
         locateBtn.addEventListener("click", () => {
-          console.log('Locate button clicked');
+          console.log("Locate button clicked");
           locateBtn.style.opacity = "0.6";
           setTimeout(() => (locateBtn.style.opacity = "1"), 200);
 
@@ -158,7 +160,9 @@
 
                 userMarker = new maplibregl.Marker({ color: "#007bff" })
                   .setLngLat(userLngLat)
-                  .setPopup(new maplibregl.Popup().setHTML("<b>You are here!</b>"))
+                  .setPopup(
+                    new maplibregl.Popup().setHTML("<b>You are here!</b>")
+                  )
                   .addTo(map);
 
                 map.flyTo({
@@ -177,13 +181,13 @@
           }
         });
         // Home Button functionality
-        const homeIcon = document.querySelector('.home-icon');
-        console.log('Home icon:', homeIcon);
+        const homeIcon = document.querySelector(".home-icon");
+        console.log("Home icon:", homeIcon);
 
         homeIcon.addEventListener("click", (e) => {
           e.preventDefault(); // Prevent default link behavior
-          console.log('Home button clicked');
-          
+          console.log("Home button clicked");
+
           // Fly back to BCIT
           map.flyTo({
             center: [-123.0016, 49.2505],
@@ -198,11 +202,11 @@
         const locationInput = document.getElementById("locationInput");
         const searchResults = document.getElementById("searchResults");
 
-        console.log('Search button:', searchBtn);
-        console.log('Search modal:', searchModal);
+        console.log("Search button:", searchBtn);
+        console.log("Search modal:", searchModal);
 
         searchBtn.addEventListener("click", () => {
-          console.log('Search button clicked!');
+          console.log("Search button clicked!");
           searchModal.style.display = "flex";
           locationInput.focus();
         });
@@ -295,7 +299,9 @@
 
           searchMarker = new maplibregl.Marker({ color: "#22c55e" })
             .setLngLat([lng, lat])
-            .setPopup(new maplibregl.Popup().setHTML(`<b>${feature.place_name}</b>`))
+            .setPopup(
+              new maplibregl.Popup().setHTML(`<b>${feature.place_name}</b>`)
+            )
             .addTo(map);
 
           map.flyTo({
