@@ -1,20 +1,23 @@
-# Elmo Hikes
+# SureSpot
 
 
 ## Overview
-Elmo Hikes is a client-side JavaScript web application that helps users discover and explore hiking trails. The app displays a curated list of hike trails, each with details such as name, location, difficulty, and an image. Users can browse the list and mark their favorite trails for easy access later.
+SureSpot is a client-side JavaScript web application that helps users find and visualize parking availability.
+The app integrates MapLibre GL JS and MapTiler APIs to display an interactive map centered on BCIT Burnaby Campus.
+Users can search for places, view their current location, and explore nearby parking areas with a responsive, mobile-friendly interface.
 
-Developed for the COMP 1800 course, this project applies User-Centred Design practices and agile project management, and demonstrates integration with Firebase backend services for storing user favorites.
+Developed for the COMP 1800 course, this project applies User-Centred Design practices and agile methodology, and demonstrates integration with Firebase backend services for hosting and storing user data.
 
 ---
 
 
 ## Features
 
-- Browse a list of curated hiking trails with images and details
-- Mark and unmark trails as favorites
-- View a personalized list of favorite hikes
-- Responsive design for desktop and mobile
+- Interactive MapLibre map centered on BCIT Burnaby Campus
+- Search functionality powered by MapTiler’s Geocoding API
+- My Location button to find and zoom to the user’s position
+- Filter icon placeholder for future filtering features
+- Responsive layout for both desktop and mobile devices
 
 ---
 
@@ -32,10 +35,11 @@ Example:
 
 ## Usage
 
-1. Open your browser and visit `http://localhost:3000`.
-2. Browse the list of hiking trails displayed on the main page.
-3. Click the heart icon (or similar) to mark a trail as a favorite.
-4. View your favorite hikes in the favorites section.
+1. Open your browser and visit http://localhost:8000 or your Firebase-hosted URL.
+2. The map will autofocus on BCIT Burnaby Campus.
+3. Click the Search icon to find any location or address.
+4. Use the My Location button to center the map on your current position.
+5. Use the Filter icon (feature in progress) to view specific parking data in the future.
 
 ---
 
@@ -43,7 +47,7 @@ Example:
 ## Project Structure
 
 ```
-elmo-hikes/
+SureSpot/
 ├── src/
 │   ├── main.js
 ├── styles/
@@ -70,7 +74,7 @@ Former Tetris Competitive Player (2022 - 2024).
 
 ## Acknowledgments
 
-- Trail data and images are for demonstration purposes only.
+- Map and geocoding features powered by MapLibre GL JS and MapTiler API.
 - Code snippets were adapted from resources such as [Stack Overflow](https://stackoverflow.com/) and [MDN Web Docs](https://developer.mozilla.org/).
 - Icons sourced from [FontAwesome](https://fontawesome.com/) and images from [Unsplash](https://unsplash.com/).
 
@@ -80,18 +84,20 @@ Former Tetris Competitive Player (2022 - 2024).
 ## Limitations and Future Work
 ### Limitations
 
-- Limited trail details (e.g., no live trail conditions).
-- Accessibility features can be further improved.
+- Parking data currently static (no live availability updates).
+- Accessibility and dark mode features can be further improved.
 
 ### Future Work
 
-- Implement map view and trailhead directions.
-- Add filtering and sorting options (e.g., by difficulty, distance).
-- Create a dark mode for better usability in low-light conditions.
+- Crowdsourcing
+- Integrate real-time parking availability data.
+- Add filter and sorting options for parking lots.
+- Implement user authentication and personalized settings.
+- Add dark mode and more accessibility improvements.
 
 ---
 
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the BCIT License. See the LICENSE file for details.
