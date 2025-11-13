@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>SureSpot | Favourites</title>
+    <title>SureSpot | FAQ</title>
+    <meta name="comp1800 template" content="My 1800 App" />
+
+    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Link to your styles -->
     <link rel="stylesheet" href="./styles/style.css" />
   </head>
   <body>
     <!-- Navigation bar -->
     <nav class="navbar">
+      <!-- Navigation bar left side -->
       <div>
         <a class="back-button" href="main.html">⬅</a>
       </div>
+      <!-- Navigation bar right side -->
       <div>
         <a href="index.html">
           <img class="home-icon" src="./images/home_icon.png" alt="Home Icon" />
@@ -19,34 +26,58 @@
       </div>
     </nav>
 
-    <!-- Page Header -->
+    <!-- Page Banner -->
     <div class="faq-header">
-      <h2>Favourite Spots</h2>
+      <h2>Favorite Spots</h2>
     </div>
 
-    <!-- Add Favourite Form -->
+    <!-- FAQ Section -->
     <main class="faq-section">
       <div class="faq-item">
-        <h3>Add New Favourite</h3>
-        <form id="favForm">
-          <label for="label">Label (e.g. Home, Work):</label><br />
-          <input type="text" id="label" required /><br /><br />
-
-          <label for="address">Address:</label><br />
-          <input type="text" id="address" required /><br /><br />
-
-          <button type="submit">Save Favourite</button>
-        </form>
+        <h3>Studies</h3>
+        <p>0 places</p>
       </div>
 
-      <!-- Saved Favourites -->
       <div class="faq-item">
-        <h3>Saved Favourites</h3>
-        <ul id="favList"></ul>
+        <h3>Starred places</h3>
+        <p>0 places</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Saved trips</h3>
+        <p>0 trips</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Favories</h3>
+        <p>0 places</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Is my data secure?</h3>
+        <p>
+          Yes. We prioritize user privacy and never share your personal
+          information with third parties.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Who created SureSpot?</h3>
+        <p>
+          SureSpot was developed by the BCIT COMP 1800 BB27 team as part of a
+          course project.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Need more help?</h3>
+        <p>Contact us at COMP1800BB27@email.com</p>
       </div>
     </main>
 
+    <br />
+
+    <!-- Footer -->
     <footer class="footer">&copy; 2025 BCIT COMP 1800 BB27</footer>
-    <script type="module" src="./src/favourites.js"></script>
   </body>
 </html>
