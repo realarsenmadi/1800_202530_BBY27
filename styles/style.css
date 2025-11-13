@@ -23,7 +23,11 @@ body {
   align-items: center;
   padding: 10px 20px;
   background-color: #f2f2f2;
+  position: sticky;   /* <— makes it stick */
+  top: 0;             /* <— pins it to the top */
+  z-index: 100;       /* <— ensures it stays above other elements */
 }
+
 
 .home-icon {
   width: 2.5em;
