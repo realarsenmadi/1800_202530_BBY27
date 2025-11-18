@@ -28,6 +28,7 @@ body {
   z-index: 100;       /* <— ensures it stays above other elements */
 }
 
+
 .home-icon {
   width: 2.5em;
   cursor: pointer;
@@ -47,18 +48,6 @@ body {
 .home-icon:hover,
 .back-button:hover {
   transform: scale(1.1);
-}
-
-/* ===== Last Updated ===== */
-#last-updated {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  background: white;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 1vw;
-  opacity: 0.85;
 }
 
 /* ===== Jumbotron ===== */
@@ -137,7 +126,7 @@ body {
 }
 
 .location-button {
-  width: 5em;
+  width: 4em;
   height: auto;
   cursor: pointer;
   transition: transform 0.2s ease;
