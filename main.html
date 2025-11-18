@@ -15,38 +15,6 @@
     />
     <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
 
-    <!-- Last Updated Script-->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-      import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
-      // Firebase config comes from Vite env vars
-      const firebaseConfig = {
-        apiKey: "AIzaSyAd0iAXvrTIIo6EaW-_30F_bozEXe8nCTw",
-        authDomain: "bby-27.firebaseapp.com",
-        projectId: "bby-27",
-        appId: "1:628477978363:web:46de11f637c1766419725e"
-      };
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      async function loadLastUpdated() {
-        const ref = doc(db, "meta", "lastUpdated");
-        const snap = await getDoc(ref);
-
-        const display = document.getElementById("lastUpdatedDisplay");
-
-        if (snap.exists()) {
-          const ts = snap.data().time.toDate();
-          display.textContent = "Last updated: " + ts.toLocaleString();
-        } else {
-          display.textContent = "Last updated: unknown";
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", loadLastUpdated);
-    </script>
-
     <!-- Link to your styles -->
     <link rel="stylesheet" href="./styles/style.css" />
   </head>
@@ -145,6 +113,8 @@
         </div>
       </nav>
     </footer>
-    <script src="/src/main.js"></script>  
+    
+    <!-- Load main script -->
+    <script type="module" src="/src/main.js"></script>  
   </body>
 </html>

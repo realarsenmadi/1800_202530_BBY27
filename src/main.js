@@ -1,12 +1,35 @@
 // Javascript for main.html
+import { db } from "/src/firebaseConfig.js";
+import { doc, getDoc } from "firebase/firestore";
+
+// Get API key from environment variable
+const MAPTILER_KEY = import.meta.env.VITE_MAPTILER_KEY;
+
+// Load "Last Updated" timestamp from Firebase
+async function loadLastUpdated() {
+  const ref = doc(db, "meta", "lastUpdated");
+  const snap = await getDoc(ref);
+
+  const display = document.getElementById("lastUpdatedDisplay");
+
+  if (snap.exists()) {
+    const ts = snap.data().time.toDate();
+    display.textContent = "Last updated: " + ts.toLocaleString();
+  } else {
+    display.textContent = "Last updated: unknown";
+  }
+}
+
 // Wait for DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM loaded, initializing map...");
+  
+  // Load the last updated timestamp
+  loadLastUpdated();
 
   const map = new maplibregl.Map({
     container: "map",
-    style:
-      "https://api.maptiler.com/maps/streets-v2/style.json?key=G8Dm1IT5QuwmIf5bQtVr",
+    style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_KEY}`,
     center: [-123.0016, 49.2505], // BCIT Burnaby Campus
     zoom: 15,
   });
@@ -67,12 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Geolocation is not supported by your browser.");
     }
   });
+
   // Home Button functionality
   const homeIcon = document.querySelector(".home-icon");
   console.log("Home icon:", homeIcon);
 
   homeIcon.addEventListener("click", (e) => {
-    e.preventDefault(); // Prevent default link behavior
+    e.preventDefault();
     console.log("Home button clicked");
 
     // Fly back to BCIT
@@ -82,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: 1500,
     });
   });
+
   // ========== Search Feature ==========
   const searchBtn = document.getElementById("searchBtn");
   const searchModal = document.getElementById("searchModal");
@@ -135,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(
         `https://api.maptiler.com/geocoding/${encodeURIComponent(
           query
-        )}.json?key=G8Dm1IT5QuwmIf5bQtVr&proximity=-123.0016,49.2505`
+        )}.json?key=${MAPTILER_KEY}&proximity=-123.0016,49.2505`
       );
 
       const data = await response.json();
