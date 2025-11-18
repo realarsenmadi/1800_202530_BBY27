@@ -30,6 +30,28 @@
       </div>
     </nav>
 
+    <!-- ========== ADDED: Parking Availability Legend ========== -->
+    <div class="parking-legend">
+      <div class="legend-title">Parking Status</div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #22c55e"></div>
+        <span>Available</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #ef4444"></div>
+        <span>Full</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #f59e0b"></div>
+        <span>Closed</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #808080"></div>
+        <span>No Data</span>
+      </div>
+    </div>
+    <!-- ========== END ADDED ========== -->
+
     <!-- Map Container -->
     <div id="map"></div>
 
@@ -81,6 +103,29 @@
       </div>
     </div>
 
+    <!-- ========== ADDED: Parking Report Modal ========== -->
+    <div id="reportModal" class="report-modal">
+      <div class="report-modal-content">
+        <button id="closeReportModal" class="close-report-btn">&times;</button>
+        <h3 class="report-modal-title">🅿️ Parking Availability</h3>
+        <p id="modalLocationName" class="report-modal-text">
+          Are there parking spots available here?
+        </p>
+        <div class="report-button-group">
+          <button
+            onclick="submitReport('available')"
+            class="report-button available"
+          >
+            ✅ Available
+          </button>
+          <button onclick="submitReport('full')" class="report-button full">
+            ❌ Full
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- ========== END ADDED ========== -->
+
     <!-- Footer -->
     <footer class="footer">
       <nav class="bottom-nav">
@@ -124,20 +169,322 @@
           zoom: 15,
         });
 
-        // Track markers
+        // ========== MODIFIED: Track markers and parking data ==========
         let userMarker = null;
         let searchMarker = null;
+        let currentUserLocation = null;
+        let parkingMarkers = [];
+        // ========== END MODIFIED ==========
+
+        // ========== ADDED: Define BCIT parking zones with actual coordinates ==========
+        const parkingLocations = [
+          {
+            id: "A",
+            name: "BCIT Parking Lot A",
+            center: [-122.99747292626391, 49.252218801096035],
+            radius: 80,
+            reports: [],
+          },
+          {
+            id: "B",
+            name: "BCIT Parking Lot B",
+            center: [-122.99740913222692, 49.25172744299303],
+            radius: 80,
+            reports: [],
+          },
+          {
+            id: "D",
+            name: "BCIT Parking Lot D",
+            center: [-122.99970571760426, 49.24816286829297],
+            radius: 80,
+            reports: [],
+          },
+          {
+            id: "E/F",
+            name: "BCIT Parking Lot E/F",
+            center: [-122.99838964985744, 49.24717712468893],
+            radius: 70,
+            reports: [],
+            status: "closed", // Closed for construction
+          },
+          {
+            id: "L",
+            name: "BCIT Parking Lot L",
+            center: [-122.99956542868452, 49.24544495669218],
+            radius: 80,
+            reports: [],
+          },
+          {
+            id: "M/N",
+            name: "BCIT Parking Lot M/N",
+            center: [-123.0019070002376, 49.24355785029364],
+            radius: 90,
+            reports: [],
+          },
+          {
+            id: "Q",
+            name: "BCIT Parking Lot Q",
+            center: [-123.00160493253136, 49.25446731483849],
+            radius: 80,
+            reports: [],
+          },
+          {
+            id: "5",
+            name: "BCIT Parking Lot 5",
+            center: [-123.00056274604528, 49.25023650243376],
+            radius: 70,
+            reports: [],
+          },
+          {
+            id: "7",
+            name: "BCIT Parking Lot 7 (Staff)",
+            center: [-122.99890272762627, 49.249023340019455],
+            radius: 70,
+            reports: [],
+          },
+          {
+            id: "12",
+            name: "BCIT Parking Lot 12",
+            center: [-122.99929066685925, 49.24992438097292],
+            radius: 70,
+            reports: [],
+          },
+        ];
+        // ========== END ADDED ==========
+
+        // ========== ADDED: Function to get marker color based on reports ==========
+        function getMarkerColor(location) {
+          // If parking lot is closed, show orange
+          if (location.status === "closed") {
+            return "#f59e0b"; // Orange for closed
+          }
+
+          if (location.reports.length === 0) return "#808080"; // Gray - no data
+
+          // Only consider reports from last 30 minutes
+          const now = Date.now();
+          const recentReports = location.reports.filter(
+            (r) => now - r.timestamp < 30 * 60 * 1000
+          );
+
+          if (recentReports.length === 0) return "#808080";
+
+          // Count report types
+          const available = recentReports.filter(
+            (r) => r.status === "available"
+          ).length;
+          const full = recentReports.filter((r) => r.status === "full").length;
+
+          // Simple majority vote
+          if (available > full) {
+            return "#22c55e"; // Green - Available
+          } else {
+            return "#ef4444"; // Red - Full
+          }
+        }
+        // ========== END ADDED ==========
+
+        // ========== ADDED: Function to draw parking zones with P icons ==========
+        function drawParkingZones() {
+          map.on("load", () => {
+            // Add sources and layers for each parking location
+            parkingLocations.forEach((location) => {
+              const sourceId = `parking-${location.id}`;
+              const layerId = `parking-layer-${location.id}`;
+
+              // Add source
+              map.addSource(sourceId, {
+                type: "geojson",
+                data: {
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: location.center,
+                  },
+                  properties: {
+                    name: location.name,
+                    id: location.id,
+                  },
+                },
+              });
+
+              // Add circle layer for the parking icon background
+              map.addLayer({
+                id: layerId,
+                type: "circle",
+                source: sourceId,
+                paint: {
+                  "circle-radius": 20,
+                  "circle-color": getMarkerColor(location),
+                  "circle-stroke-width": 2,
+                  "circle-stroke-color": "#ffffff",
+                },
+              });
+
+              // Add text layer for parking lot letter/number
+              map.addLayer({
+                id: `${layerId}-text`,
+                type: "symbol",
+                source: sourceId,
+                layout: {
+                  "text-field": location.id,
+                  "text-size": 14,
+                  "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+                },
+                paint: {
+                  "text-color": "#ffffff",
+                },
+              });
+
+              // Add click event to show report modal (skip if closed)
+              map.on("click", layerId, () => {
+                if (location.status === "closed") {
+                  alert(
+                    `${location.name} is currently closed for construction.`
+                  );
+                } else {
+                  showReportModal(location);
+                }
+              });
+
+              // Change cursor on hover
+              map.on("mouseenter", layerId, () => {
+                map.getCanvas().style.cursor = "pointer";
+              });
+
+              map.on("mouseleave", layerId, () => {
+                map.getCanvas().style.cursor = "";
+              });
+
+              // Store reference for updates
+              parkingMarkers.push({ location, layerId });
+            });
+          });
+        }
+        // ========== END ADDED ==========
+
+        // ========== ADDED: Function to update zone appearance after report ==========
+        function updateZoneAppearance(locationId) {
+          const markerObj = parkingMarkers.find(
+            (m) => m.location.id === locationId
+          );
+          if (!markerObj) return;
+
+          const color = getMarkerColor(markerObj.location);
+          map.setPaintProperty(markerObj.layerId, "circle-color", color);
+        }
+        // ========== END ADDED ==========
+
+        // ========== ADDED: Function to show report modal ==========
+        function showReportModal(location) {
+          document.getElementById(
+            "modalLocationName"
+          ).textContent = `Are parking spots available at ${location.name}?`;
+          document.getElementById("reportModal").style.display = "flex";
+
+          // Store current location for report submission
+          window.currentReportLocation = location;
+        }
+        // ========== END ADDED ==========
+
+        // ========== ADDED: Function to submit parking report ==========
+        window.submitReport = function (status) {
+          const location = window.currentReportLocation;
+          if (!location) return;
+
+          // Add report to location
+          location.reports.push({
+            status: status,
+            timestamp: Date.now(),
+            userId: "user123", // In real app, use actual user ID
+          });
+
+          // Update zone color
+          updateZoneAppearance(location.id);
+
+          // Close modal
+          document.getElementById("reportModal").style.display = "none";
+
+          // Show confirmation
+          const statusText = status === "available" ? "available" : "full";
+          alert(
+            `Thank you! Your report (${statusText}) has been submitted for ${location.name}.`
+          );
+
+          // In real app, send to backend/database
+          console.log("Report submitted:", {
+            locationId: location.id,
+            locationName: location.name,
+            status: status,
+            timestamp: Date.now(),
+          });
+        };
+        // ========== END ADDED ==========
+
+        // ========== ADDED: Function to check if user is near parking zones ==========
+        function checkNearbyZones(userLng, userLat) {
+          parkingLocations.forEach((location) => {
+            // Skip closed parking lots
+            if (location.status === "closed") return;
+
+            const distance = getDistance(
+              userLng,
+              userLat,
+              location.center[0],
+              location.center[1]
+            );
+
+            // If user is within zone radius, prompt for report (only once per 10 minutes)
+            if (distance < location.radius) {
+              const lastPrompt = sessionStorage.getItem(
+                `lastPrompt-${location.id}`
+              );
+              const now = Date.now();
+
+              if (!lastPrompt || now - parseInt(lastPrompt) > 10 * 60 * 1000) {
+                sessionStorage.setItem(
+                  `lastPrompt-${location.id}`,
+                  now.toString()
+                );
+                setTimeout(() => showReportModal(location), 2000);
+              }
+            }
+          });
+        }
+        // ========== END ADDED ==========
+
+        // ========== ADDED: Function to calculate distance between two points ==========
+        function getDistance(lng1, lat1, lng2, lat2) {
+          const R = 6371e3; // Earth radius in meters
+          const φ1 = (lat1 * Math.PI) / 180;
+          const φ2 = (lat2 * Math.PI) / 180;
+          const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+          const Δλ = ((lng2 - lng1) * Math.PI) / 180;
+
+          const a =
+            Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+          return R * c;
+        }
+        // ========== END ADDED ==========
 
         // Add zoom & rotation controls
         map.addControl(new maplibregl.NavigationControl(), "top-right");
 
-        // Add BCIT marker
-        new maplibregl.Marker({ color: "#ff0000" })
-          .setLngLat([-123.0016, 49.2505])
-          .setPopup(
-            new maplibregl.Popup().setHTML("<b>BCIT Burnaby Campus</b>")
-          )
-          .addTo(map);
+        // ========== REMOVED: Static BCIT marker - replaced with parking zone markers ==========
+        // new maplibregl.Marker({ color: "#ff0000" })
+        //   .setLngLat([-123.0016, 49.2505])
+        //   .setPopup(
+        //     new maplibregl.Popup().setHTML("<b>BCIT Burnaby Campus</b>")
+        //   )
+        //   .addTo(map);
+        // ========== END REMOVED ==========
+
+        // ========== ADDED: Draw parking zones on map ==========
+        drawParkingZones();
+        // ========== END ADDED ==========
 
         // Locate Me Button functionality
         const locateBtn = document.getElementById("locateBtn");
@@ -155,6 +502,11 @@
                   position.coords.longitude,
                   position.coords.latitude,
                 ];
+
+                // ========== ADDED: Store user location and check nearby zones ==========
+                currentUserLocation = userLngLat;
+                checkNearbyZones(userLngLat[0], userLngLat[1]);
+                // ========== END ADDED ==========
 
                 if (userMarker) userMarker.remove();
 
@@ -180,6 +532,7 @@
             alert("Geolocation is not supported by your browser.");
           }
         });
+
         // Home Button functionality
         const homeIcon = document.querySelector(".home-icon");
         console.log("Home icon:", homeIcon);
@@ -195,6 +548,7 @@
             duration: 1500,
           });
         });
+
         // ========== Search Feature ==========
         const searchBtn = document.getElementById("searchBtn");
         const searchModal = document.getElementById("searchModal");
@@ -315,6 +669,21 @@
           locationInput.value = "";
           searchResults.innerHTML = "";
         }
+
+        // ========== ADDED: Report Modal close handlers ==========
+        const closeReportModal = document.getElementById("closeReportModal");
+        const reportModal = document.getElementById("reportModal");
+
+        closeReportModal.addEventListener("click", () => {
+          reportModal.style.display = "none";
+        });
+
+        reportModal.addEventListener("click", (e) => {
+          if (e.target === reportModal) {
+            reportModal.style.display = "none";
+          }
+        });
+        // ========== END ADDED ==========
       });
     </script>
   </body>
