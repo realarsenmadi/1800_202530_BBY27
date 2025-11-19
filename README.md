@@ -45,8 +45,8 @@ Developed for the COMP 1800 course, this project applies User-Centred Design pra
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/realarsenmadi/SureSpot.git
-   cd SureSpot
+   git clone https://github.com/realarsenmadi/1800_202530_BBY27
+   cd 1800_202530_BBY27
    ```
 
 2. **Install dependencies**
