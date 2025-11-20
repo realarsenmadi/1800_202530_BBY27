@@ -123,6 +123,41 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* ========== Parking Legend Styles ========== */
+.parking-legend {
+  position: fixed;
+  top: 80px;
+  right: 10px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  font-size: 0.9em;
+  font-family: Arial, sans-serif;
+}
+
+.legend-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 1em;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1px solid #ddd;
+}
+
 /* ===== Search & Filter Section ===== */
 .search-functions {
   position: fixed;
@@ -248,6 +283,73 @@ body {
 .result-address {
   color: #666;
   font-size: 0.9em;
+}
+
+/* ========== Parking Report Modal Styles ========== */
+.report-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: transparent;
+
+  pointer-events: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.report-modal-content {
+  pointer-events: auto;
+
+  background-color: #ffffff;
+
+  width: auto;
+  max-width: 300px;
+  padding: 20px;
+
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  text-align: center;
+
+  border: 1px solid #ddd;
+}
+
+.report-modal-text {
+  color: #333;
+  margin-bottom: 15px;
+  font-family: sans-serif;
+}
+
+.report-button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.report-button {
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+}
+
+.report-button.available {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+  border: 1px solid #1e8e3e;
+}
+
+.report-button.full {
+  background-color: #fce8e6;
+  color: #d93025;
+  border: 1px solid #d93025;
 }
 
 /* Footer */
