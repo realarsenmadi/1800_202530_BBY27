@@ -32,7 +32,27 @@
         </a>
       </div>
     </nav>
-
+    <!-- ========== ADDED: Parking Availability Legend ========== -->
+    <div class="parking-legend">
+      <div class="legend-title">Parking Status</div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #22c55e"></div>
+        <span>Available</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #ef4444"></div>
+        <span>Full</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #f59e0b"></div>
+        <span>Closed</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #808080"></div>
+        <span>No Data</span>
+      </div>
+    </div>
+    <!-- ========== END ADDED ========== -->
     <!-- Map Container -->
     <div id="map"></div>
 
@@ -51,7 +71,9 @@
           class="location-button"
           id="locateBtn"
         />
-        <caption>My Location</caption>
+        <caption>
+          My Location
+        </caption>
       </div>
 
       <!-- Search -->
@@ -84,7 +106,28 @@
         <div id="searchResults"></div>
       </div>
     </div>
-
+    <!-- ========== : Parking Report Modal ========== -->
+    <div id="reportModal" class="report-modal">
+      <div class="report-modal-content">
+        <button id="closeReportModal" class="close-report-btn">&times;</button>
+        <h3 class="report-modal-title">🅿️ Parking Availability</h3>
+        <p id="modalLocationName" class="report-modal-text">
+          Are there parking spots available here?
+        </p>
+        <div class="report-button-group">
+          <button
+            onclick="submitReport('available')"
+            class="report-button available"
+          >
+            ✅ Available
+          </button>
+          <button onclick="submitReport('full')" class="report-button full">
+            ❌ Full
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- ========== ADDED ========== -->
     <!-- Footer -->
     <footer class="footer">
       <nav class="bottom-nav">
@@ -113,8 +156,8 @@
         </div>
       </nav>
     </footer>
-    
+
     <!-- Load main script -->
-    <script type="module" src="/src/main.js"></script>  
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
