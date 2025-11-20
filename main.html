@@ -43,7 +43,7 @@
         <img src="./images/Filters.png" alt="Filter Icon" class="filter-icon" />
       </div>
 
-      <!-- 📍 My Location -->
+      <!-- My Location -->
       <div>
         <img
           src="./images/Location.png"
@@ -51,7 +51,9 @@
           class="location-button"
           id="locateBtn"
         />
-        <caption>My Location</caption>
+        <caption>
+          My Location
+        </caption>
       </div>
 
       <!-- Search -->
@@ -85,6 +87,17 @@
       </div>
     </div>
 
+    <!-- Favourites Modal -->
+    <div id="favouritesModal">
+      <div class="fav-modal-content">
+        <div class="fav-modal-header">
+          <h3>Your Favourites</h3>
+          <button id="closeFavourites">&times;</button>
+        </div>
+        <ul id="favouritesList"></ul>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
       <nav class="bottom-nav">
@@ -98,7 +111,7 @@
           </a>
         </div>
         <div>
-          <a href="favourites.html">
+          <a href="#" id="openFavourites">
             <img
               src="./images/Favourites.png"
               alt="Favourites Icon"
@@ -113,8 +126,8 @@
         </div>
       </nav>
     </footer>
-    
+
     <!-- Load main script -->
-    <script type="module" src="/src/main.js"></script>  
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
