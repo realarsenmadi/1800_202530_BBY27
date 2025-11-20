@@ -32,6 +32,26 @@
         </a>
       </div>
     </nav>
+    <!-- ========== Parking Availability Legend ========== -->
+    <div class="parking-legend">
+      <div class="legend-title">Parking Status</div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #22c55e"></div>
+        <span>Available</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #ef4444"></div>
+        <span>Full</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #f59e0b"></div>
+        <span>Closed</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #808080"></div>
+        <span>No Data</span>
+      </div>
+    </div>
 
     <!-- Map Container -->
     <div id="map"></div>
@@ -43,7 +63,7 @@
         <img src="./images/Filters.png" alt="Filter Icon" class="filter-icon" />
       </div>
 
-      <!-- 📍 My Location -->
+      <!-- My Location -->
       <div>
         <img
           src="./images/Location.png"
@@ -51,7 +71,9 @@
           class="location-button"
           id="locateBtn"
         />
-        <caption>My Location</caption>
+        <caption>
+          My Location
+        </caption>
       </div>
 
       <!-- Search -->
@@ -85,6 +107,39 @@
       </div>
     </div>
 
+    <!-- ========== : Parking Report Modal ========== -->
+    <div id="reportModal" class="report-modal">
+      <div class="report-modal-content">
+        <button id="closeReportModal" class="close-report-btn">&times;</button>
+        <h3 class="report-modal-title">🅿️ Parking Availability</h3>
+        <p id="modalLocationName" class="report-modal-text">
+          Are there parking spots available here?
+        </p>
+        <div class="report-button-group">
+          <button
+            onclick="submitReport('available')"
+            class="report-button available"
+          >
+            ✅ Available
+          </button>
+          <button onclick="submitReport('full')" class="report-button full">
+            ❌ Full
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Favourites Modal -->
+    <div id="favouritesModal">
+      <div class="fav-modal-content">
+        <div class="fav-modal-header">
+          <h3>Your Favourites</h3>
+          <button id="closeFavourites">&times;</button>
+        </div>
+        <ul id="favouritesList"></ul>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
       <nav class="bottom-nav">
@@ -98,7 +153,7 @@
           </a>
         </div>
         <div>
-          <a href="favourites.html">
+          <a href="#" id="openFavourites">
             <img
               src="./images/Favourites.png"
               alt="Favourites Icon"
@@ -113,8 +168,8 @@
         </div>
       </nav>
     </footer>
-    
+
     <!-- Load main script -->
-    <script type="module" src="/src/main.js"></script>  
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

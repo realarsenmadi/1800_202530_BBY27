@@ -23,9 +23,9 @@ body {
   align-items: center;
   padding: 10px 20px;
   background-color: #f2f2f2;
-  position: sticky;   /* <— makes it stick */
-  top: 0;             /* <— pins it to the top */
-  z-index: 100;       /* <— ensures it stays above other elements */
+  position: sticky; /* <— makes it stick */
+  top: 0; /* <— pins it to the top */
+  z-index: 100; /* <— ensures it stays above other elements */
 }
 
 .home-icon {
@@ -121,6 +121,41 @@ body {
   border-radius: 12px;
   margin-top: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== Parking Legend Styles ========== */
+.parking-legend {
+  position: fixed;
+  top: 80px;
+  right: 10px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  font-size: 0.9em;
+  font-family: Arial, sans-serif;
+}
+
+.legend-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 1em;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1px solid #ddd;
 }
 
 /* ===== Search & Filter Section ===== */
@@ -250,6 +285,73 @@ body {
   font-size: 0.9em;
 }
 
+/* ========== Parking Report Modal Styles ========== */
+.report-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: transparent;
+
+  pointer-events: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.report-modal-content {
+  pointer-events: auto;
+
+  background-color: #ffffff;
+
+  width: auto;
+  max-width: 300px;
+  padding: 20px;
+
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  text-align: center;
+
+  border: 1px solid #ddd;
+}
+
+.report-modal-text {
+  color: #333;
+  margin-bottom: 15px;
+  font-family: sans-serif;
+}
+
+.report-button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.report-button {
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+}
+
+.report-button.available {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+  border: 1px solid #1e8e3e;
+}
+
+.report-button.full {
+  background-color: #fce8e6;
+  color: #d93025;
+  border: 1px solid #d93025;
+}
+
 /* Footer */
 .footer {
   text-align: center;
@@ -265,7 +367,6 @@ body {
   align-items: center;
   padding: 10px 20px;
 }
-
 
 .bottom-nav img:hover {
   transform: scale(1.1);
@@ -369,4 +470,49 @@ body.dark-mode {
 .toggle-container {
   text-align: center;
   margin-top: 30px;
+}
+
+/* Favourites */
+#favouritesModal {
+  display: none;
+  position: fixed;
+  top: 70px;
+  left: 10px;
+  width: 280px;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  z-index: 900;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.fav-modal-content h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.fav-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#closeFavourites {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+#favouritesList li {
+  padding: 10px 6px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+#favouritesList li:hover {
+  background: #f5f5f5;
 }
