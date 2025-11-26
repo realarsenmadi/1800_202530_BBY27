@@ -1,5 +1,12 @@
 /* ===== Fonts ===== */
 @font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "Super Joyful";
   src: url("../fonts/SuperJoyful.ttf") format("truetype");
   font-weight: normal;
@@ -9,7 +16,7 @@
 /* ===== Global Styles ===== */
 html,
 body {
-  font-family: "Super Joyful", serif;
+  font-family: "Inter", sans-serif;
   height: 100%;
   margin: 0;
   display: flex;
@@ -119,8 +126,17 @@ body {
   position: relative;
   height: calc(100vh - 150px);
   border-radius: 12px;
-  margin-top: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* include border in width/height to prevent scrollbars */
+}
+
+.app-title {
+  margin: 0;
+  font-size: 2em;
+  font-family: "Super Joyful", serif;
+  text-align: center;
 }
 
 /* ========== Parking Legend Styles ========== */
@@ -134,7 +150,7 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   z-index: 100;
   font-size: 0.9em;
-  font-family: Arial, sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .legend-title {
@@ -434,12 +450,24 @@ body.dark-mode {
 }
 
 .profile-settings {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 30px 25px;
   background-color: var(--card-bg);
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column; /* ensures consistent vertical stacking */
+  gap: 15px; /* consistent spacing between elements */
+  box-sizing: border-box;
+}
+
+.profile-settings input,
+.profile-settings button,
+.profile-settings .toggle-container,
+.profile-settings .logout-button {
+  width: 100%; /* make everything same width */
+  box-sizing: border-box;
 }
 
 .profile-settings label {
@@ -467,10 +495,43 @@ body.dark-mode {
   cursor: pointer;
 }
 
+.save-changes-button:hover {
+  background-color: #0159be;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .toggle-container {
   text-align: center;
   margin-top: 30px;
 }
+
+/* Logout container to separate the button from the card */
+.logout-container {
+  max-width: 420px;        /* match profile card width */
+  margin: 20px auto;       /* spacing from card */
+  text-align: center;      /* center the button */
+}
+
+.logout-button {
+  width: 100%;             /* full width of container */
+  padding: 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 
 /* Favourites */
 #favouritesModal {

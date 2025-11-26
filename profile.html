@@ -16,9 +16,14 @@
   <body>
     <!-- Navigation bar -->
     <nav class="navbar">
+      <!-- Navigation bar left side -->
       <div>
         <a class="back-button" href="main.html">⬅</a>
       </div>
+      <div>
+        <h1 class="app-title">SureSpot</h1>
+      </div>
+      <!-- Navigation bar right side -->
       <div>
         <a href="index.html">
           <img class="home-icon" src="./images/home_icon.png" alt="Home Icon" />
@@ -38,17 +43,12 @@
         <input type="text" id="name" placeholder="Enter your name" required />
 
         <label for="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          required
-        />
+        <input type="email" id="email" placeholder="Enter your email" required />
 
         <label for="password">New Password:</label>
         <input type="password" id="password" placeholder="Enter new password" />
 
-        <button type="submit">Save Changes</button>
+        <button class="save-changes-button" type="submit">Save Changes</button>
       </form>
 
       <div class="toggle-container">
@@ -57,6 +57,11 @@
           Dark Mode
         </label>
       </div>
+    </div>
+
+    <!-- Logout button outside the card -->
+    <div class="logout-container">
+      <button id="logout-btn" class="logout-button">Log Out</button>
     </div>
 
     <!-- Footer -->
