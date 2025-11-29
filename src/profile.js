@@ -1,5 +1,5 @@
 import { auth, db } from "./firebaseConfig.js";
-import { onAuthStateChanged, updateEmail, updatePassword } from "firebase/auth";
+import { onAuthStateChanged, updateEmail, updatePassword, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 // DOM references
@@ -8,6 +8,10 @@ const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const toggle = document.getElementById("theme-toggle");
+const logoutBtn = document.getElementById("logout-btn");
+
+// Track if logout is in progress
+let loggingOut = false;
 
 // Dark Mode Logic
 if (localStorage.getItem("theme") === "dark") {
@@ -25,11 +29,29 @@ toggle.addEventListener("change", () => {
   }
 });
 
+// Logout functionality
+logoutBtn.addEventListener("click", async () => {
+  try {
+    loggingOut = true; // flag logout
+    await auth.signOut();
+    alert("Logged out successfully!");
+    window.location.href = "index.html";
+  } catch (error) {
+    console.error("Error logging out:", error);
+    alert("Error logging out: " + error.message);
+  } finally {
+    loggingOut = false;
+  }
+});
+
 // Firebase User Profile Logic
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    alert("Please log in to view your profile.");
-    window.location.href = "login.html";
+    // Only redirect if user is not logged in AND not logging out
+    if (!loggingOut) {
+      alert("Please log in to view your profile.");
+      window.location.href = "login.html";
+    }
     return;
   }
 

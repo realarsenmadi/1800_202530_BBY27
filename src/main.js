@@ -3,6 +3,7 @@ import { db, auth } from "/src/firebaseConfig.js";
 import {
   doc,
   getDoc,
+  setDoc,
   collection,
   getDocs,
   addDoc,
@@ -264,10 +265,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!location) return;
 
     const reportModal = document.getElementById("reportModal");
-
     reportModal.style.display = "none";
 
     try {
+      // Add the parking report
       await addDoc(collection(db, "reports"), {
         locationId: location.id,
         locationName: location.name,
@@ -275,11 +276,22 @@ document.addEventListener("DOMContentLoaded", function () {
         timestamp: Date.now(),
         userId: "user123",
       });
+
+      // Update the "lastUpdated" timestamp
+      const metaRef = doc(db, "meta", "lastUpdated");
+      await setDoc(metaRef, {
+        time: new Date()
+      });
+
+      // Reload the last updated display
+      loadLastUpdated();
+
     } catch (e) {
       console.error("Error adding document: ", e);
       alert("Error submitting report. Please try again.");
     }
   };
+
   function checkNearbyZones(userLng, userLat) {
     if (!window.mapIsReady) return;
 
@@ -296,11 +308,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // If user is within zone radius, prompt for report (only once per 10 minutes)
       if (distance < location.radius) {
-        const lastPrompt = sessionStorage.getItem(`lastPrompt-${location.id}`); // <--- ISSUE: SessionStorage
+        const lastPrompt = sessionStorage.getItem(`lastPrompt-${location.id}`);
         const now = Date.now();
 
         if (!lastPrompt || now - parseInt(lastPrompt) > 10 * 60 * 1000) {
-          localStorage.setItem(`lastPrompt-${location.id}`, now.toString()); // <--- ISSUE: localStorage used here
+          sessionStorage.setItem(`lastPrompt-${location.id}`, now.toString());
           showReportModal(location);
         }
       }
@@ -353,20 +365,50 @@ document.addEventListener("DOMContentLoaded", function () {
   locateBtn.addEventListener("click", () => {
     locateBtn.style.opacity = "0.6";
     setTimeout(() => (locateBtn.style.opacity = "1"), 200);
+    
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const coords = [pos.coords.longitude, pos.coords.latitude];
-          if (userMarker) userMarker.remove();
+      // If we already have a current location from watchPosition, use it immediately
+      if (currentUserLocation) {
+        if (userMarker) {
+          userMarker.setLngLat(currentUserLocation);
+        } else {
           userMarker = new maplibregl.Marker({ color: "#007bff" })
-            .setLngLat(coords)
+            .setLngLat(currentUserLocation)
             .setPopup(new maplibregl.Popup().setHTML("<b>You are here!</b>"))
             .addTo(map);
-          map.flyTo({ center: coords, zoom: 16, duration: 1500 });
-        },
-        () => alert("Could not get your location.")
-      );
-    } else alert("Geolocation not supported.");
+        }
+        map.flyTo({ center: currentUserLocation, zoom: 16, duration: 1500 });
+      } else {
+        // Fallback to getCurrentPosition if we don't have a cached location
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const coords = [pos.coords.longitude, pos.coords.latitude];
+            
+            if (userMarker) {
+              userMarker.setLngLat(coords);
+            } else {
+              userMarker = new maplibregl.Marker({ color: "#007bff" })
+                .setLngLat(coords)
+                .setPopup(new maplibregl.Popup().setHTML("<b>You are here!</b>"))
+                .addTo(map);
+            }
+            
+            map.flyTo({ center: coords, zoom: 16, duration: 1500 });
+          },
+          (error) => {
+            console.error("Location error:", error);
+            alert("Could not get your location.");
+          },
+          {
+            enableHighAccuracy: true,  // Faster but less accurate
+            timeout: 2000,
+            maximumAge: 30000  // Use cached position up to 30 seconds old
+          }
+        );
+      }
+    } else {
+      alert("Geolocation not supported.");
+    }
   });
 
   // Watch user position continuously for automatic prompts
