@@ -7,6 +7,7 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
+  setDoc,
   query,
   where,
   onSnapshot,
@@ -218,9 +219,8 @@ document.addEventListener("DOMContentLoaded", function () {
       return "#f59e0b"; // Orange for closed
     }
 
-    if (location.reports.length === 0) return "#808080"; // Gray - no data
+    if (location.reports.length === 0) return "#808080";
 
-    // Only consider reports from last 30 minutes
     const now = Date.now();
     const recentReports = location.reports.filter(
       (r) => now - r.timestamp < 30 * 60 * 1000
@@ -236,9 +236,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Simple majority vote
     if (available > full) {
-      return "#22c55e"; // Green - Available
+      return "#22c55e";
     } else {
-      return "#ef4444"; // Red - Full
+      return "#ef4444";
     }
   }
 
@@ -384,6 +384,14 @@ document.addEventListener("DOMContentLoaded", function () {
         userId: user.uid,
       });
       console.log("Report submitted successfully!");
+
+      // Update the "lastUpdated" timestamp
+      const metaRef = doc(db, "meta", "lastUpdated");
+      await setDoc(metaRef, {
+        time: new Date(),
+      });
+      // Reload the last updated display
+      loadLastUpdated();
     } catch (e) {
       console.error("Full Firebase Error:", e);
       if (e.code === "permission-denied") {
@@ -485,19 +493,50 @@ document.addEventListener("DOMContentLoaded", function () {
     locateBtn.style.opacity = "0.6";
     setTimeout(() => (locateBtn.style.opacity = "1"), 200);
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const coords = [pos.coords.longitude, pos.coords.latitude];
-          if (userMarker) userMarker.remove();
+      // If we already have a current location from watchPosition, use it immediately
+      if (currentUserLocation) {
+        if (userMarker) {
+          userMarker.setLngLat(currentUserLocation);
+        } else {
           userMarker = new maplibregl.Marker({ color: "#007bff" })
-            .setLngLat(coords)
+            .setLngLat(currentUserLocation)
             .setPopup(new maplibregl.Popup().setHTML("<b>You are here!</b>"))
             .addTo(map);
-          map.flyTo({ center: coords, zoom: 16, duration: 1500 });
-        },
-        () => alert("Could not get your location.")
-      );
-    } else alert("Geolocation not supported.");
+        }
+        map.flyTo({ center: currentUserLocation, zoom: 16, duration: 1500 });
+      } else {
+        // Fallback to getCurrentPosition if we don't have a cached location
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const coords = [pos.coords.longitude, pos.coords.latitude];
+
+            if (userMarker) {
+              userMarker.setLngLat(coords);
+            } else {
+              userMarker = new maplibregl.Marker({ color: "#007bff" })
+                .setLngLat(coords)
+                .setPopup(
+                  new maplibregl.Popup().setHTML("<b>You are here!</b>")
+                )
+                .addTo(map);
+            }
+
+            map.flyTo({ center: coords, zoom: 16, duration: 1500 });
+          },
+          (error) => {
+            console.error("Location error:", error);
+            alert("Could not get your location.");
+          },
+          {
+            enableHighAccuracy: true, // Faster but less accurate
+            timeout: 2000,
+            maximumAge: 30000, // Use cached position up to 30 seconds old
+          }
+        );
+      }
+    } else {
+      alert("Geolocation not supported.");
+    }
   });
 
   // Watch user position continuously for automatic prompts
