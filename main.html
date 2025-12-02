@@ -125,7 +125,50 @@
         <div id="searchResults"></div>
       </div>
     </div>
+    <!-- Add this Filter Modal after the Search Modal in your HTML (around line 108) -->
 
+    <!-- Filter Modal -->
+    <div id="filterModal">
+      <div class="filter-modal-content">
+        <div class="filter-modal-header">
+          <h3>Filter Parking Lots</h3>
+          <button id="closeFilterModal">&times;</button>
+        </div>
+
+        <div class="filter-options">
+          <label class="filter-option">
+            <input type="radio" name="parkingFilter" value="available" />
+            <span class="filter-label">
+              <span
+                class="filter-indicator"
+                style="background-color: #22c55e"
+              ></span>
+              Show Available Only
+            </span>
+          </label>
+
+          <label class="filter-option">
+            <input type="radio" name="parkingFilter" value="full" />
+            <span class="filter-label">
+              <span
+                class="filter-indicator"
+                style="background-color: #ef4444"
+              ></span>
+              Show Full Only
+            </span>
+          </label>
+        </div>
+
+        <div class="filter-buttons">
+          <button id="applyFilter" class="filter-btn apply-btn">
+            Apply Filter
+          </button>
+          <button id="clearFilter" class="filter-btn clear-btn">
+            Show All
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- ========== : Parking Report Modal ========== -->
     <div id="reportModal" class="report-modal">
       <div class="report-modal-content">
