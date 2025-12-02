@@ -3,7 +3,6 @@ import { db, auth } from "/src/firebaseConfig.js";
 import {
   doc,
   getDoc,
-  setDoc,
   collection,
   getDocs,
   addDoc,
@@ -255,48 +254,66 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById(
       "modalLocationName"
     ).textContent = `Are parking spots available at ${location.name}?`;
-    document.getElementById("reportModal").style.display = "flex";
+
+    const modal = document.getElementById("reportModal");
+    modal.classList.add("active");
 
     window.currentReportLocation = location;
   }
 
-  window.submitReport = async function (status) {
+  async function handleReportSubmission(status) {
     const location = window.currentReportLocation;
     if (!location) return;
 
+    const user = auth.currentUser;
+    if (!user) {
+      alert("You must be logged in to submit a report!");
+      return;
+    }
     const reportModal = document.getElementById("reportModal");
-    reportModal.style.display = "none";
+    reportModal.classList.remove("active");
 
     try {
-      // Add the parking report
       await addDoc(collection(db, "reports"), {
         locationId: location.id,
         locationName: location.name,
         status: status,
         timestamp: Date.now(),
-        userId: "user123",
+        userId: user.uid,
       });
-
-      // Update the "lastUpdated" timestamp
-      const metaRef = doc(db, "meta", "lastUpdated");
-      await setDoc(metaRef, {
-        time: new Date()
-      });
-
-      // Reload the last updated display
-      loadLastUpdated();
-
+      console.log("Report submitted successfully!");
     } catch (e) {
-      console.error("Error adding document: ", e);
-      alert("Error submitting report. Please try again.");
+      console.error("Full Firebase Error:", e);
+      if (e.code === "permission-denied") {
+        alert("Error: You do not have permission to write to the database.");
+      } else {
+        alert(`Error submitting report: ${e.message}`);
+      }
     }
-  };
+  }
+
+  const btnAvailable = document.querySelector(".report-button.available");
+  const btnFull = document.querySelector(".report-button.full");
+  const closeReportBtn = document.getElementById("closeReportModal");
+
+  if (btnAvailable) {
+    btnAvailable.addEventListener("click", () =>
+      handleReportSubmission("available")
+    );
+  }
+  if (btnFull) {
+    btnFull.addEventListener("click", () => handleReportSubmission("full"));
+  }
+  if (closeReportBtn) {
+    closeReportBtn.addEventListener("click", () => {
+      document.getElementById("reportModal").classList.remove("active");
+    });
+  }
 
   function checkNearbyZones(userLng, userLat) {
     if (!window.mapIsReady) return;
 
     parkingLocations.forEach((location) => {
-      // Skip closed parking lots
       if (location.status === "closed") return;
 
       const distance = getDistance(
@@ -308,11 +325,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // If user is within zone radius, prompt for report (only once per 10 minutes)
       if (distance < location.radius) {
-        const lastPrompt = sessionStorage.getItem(`lastPrompt-${location.id}`);
+        const lastPrompt = sessionStorage.getItem(`lastPrompt-${location.id}`); // <--- ISSUE: SessionStorage
         const now = Date.now();
 
         if (!lastPrompt || now - parseInt(lastPrompt) > 10 * 60 * 1000) {
-          sessionStorage.setItem(`lastPrompt-${location.id}`, now.toString());
+          localStorage.setItem(`lastPrompt-${location.id}`, now.toString()); // <--- ISSUE: localStorage used here
           showReportModal(location);
         }
       }
@@ -365,50 +382,20 @@ document.addEventListener("DOMContentLoaded", function () {
   locateBtn.addEventListener("click", () => {
     locateBtn.style.opacity = "0.6";
     setTimeout(() => (locateBtn.style.opacity = "1"), 200);
-    
     if (navigator.geolocation) {
-      // If we already have a current location from watchPosition, use it immediately
-      if (currentUserLocation) {
-        if (userMarker) {
-          userMarker.setLngLat(currentUserLocation);
-        } else {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const coords = [pos.coords.longitude, pos.coords.latitude];
+          if (userMarker) userMarker.remove();
           userMarker = new maplibregl.Marker({ color: "#007bff" })
-            .setLngLat(currentUserLocation)
+            .setLngLat(coords)
             .setPopup(new maplibregl.Popup().setHTML("<b>You are here!</b>"))
             .addTo(map);
-        }
-        map.flyTo({ center: currentUserLocation, zoom: 16, duration: 1500 });
-      } else {
-        // Fallback to getCurrentPosition if we don't have a cached location
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            const coords = [pos.coords.longitude, pos.coords.latitude];
-            
-            if (userMarker) {
-              userMarker.setLngLat(coords);
-            } else {
-              userMarker = new maplibregl.Marker({ color: "#007bff" })
-                .setLngLat(coords)
-                .setPopup(new maplibregl.Popup().setHTML("<b>You are here!</b>"))
-                .addTo(map);
-            }
-            
-            map.flyTo({ center: coords, zoom: 16, duration: 1500 });
-          },
-          (error) => {
-            console.error("Location error:", error);
-            alert("Could not get your location.");
-          },
-          {
-            enableHighAccuracy: true,  // Faster but less accurate
-            timeout: 2000,
-            maximumAge: 30000  // Use cached position up to 30 seconds old
-          }
-        );
-      }
-    } else {
-      alert("Geolocation not supported.");
-    }
+          map.flyTo({ center: coords, zoom: 16, duration: 1500 });
+        },
+        () => alert("Could not get your location.")
+      );
+    } else alert("Geolocation not supported.");
   });
 
   // Watch user position continuously for automatic prompts

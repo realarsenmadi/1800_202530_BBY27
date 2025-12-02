@@ -303,21 +303,22 @@ body {
 
 /* ========== Parking Report Modal Styles ========== */
 .report-modal {
-  display: none;
+  display: none; /* Hidden by default */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-
-  background-color: transparent;
-
-  pointer-events: none;
-
-  display: flex;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 2000;
   justify-content: center;
   align-items: center;
-  z-index: 2000;
+}
+
+/* This class is what JS toggles now */
+.report-modal.active {
+  display: flex;
+  pointer-events: auto; /* Ensure clicks work */
 }
 
 .report-modal-content {
@@ -508,13 +509,13 @@ body.dark-mode {
 
 /* Logout container to separate the button from the card */
 .logout-container {
-  max-width: 420px;        /* match profile card width */
-  margin: 20px auto;       /* spacing from card */
-  text-align: center;      /* center the button */
+  max-width: 420px; /* match profile card width */
+  margin: 20px auto; /* spacing from card */
+  text-align: center; /* center the button */
 }
 
 .logout-button {
-  width: 100%;             /* full width of container */
+  width: 100%; /* full width of container */
   padding: 12px;
   background-color: #dc3545;
   color: white;
@@ -531,7 +532,6 @@ body.dark-mode {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
 
 /* Favourites */
 #favouritesModal {
