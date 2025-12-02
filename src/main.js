@@ -31,19 +31,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeFavourites = document.getElementById("closeFavourites");
   const favouritesList = document.getElementById("favouritesList");
   const openFavourites = document.getElementById("openFavourites");
-  // Add this code to your main.js file
 
-  // Add near the top with other DOM elements (around line 30)
   const filterIcon = document.querySelector(".filter-icon");
   const filterModal = document.getElementById("filterModal");
   const closeFilterModal = document.getElementById("closeFilterModal");
   const applyFilterBtn = document.getElementById("applyFilter");
   const clearFilterBtn = document.getElementById("clearFilter");
 
-  // Add with other variables (around line 120)
-  let currentFilter = null; // 'available', 'full', or null for no filter
+  let currentFilter = null;
 
-  // Add this function after getMarkerColor function (around line 140)
   function applyParkingFilter(filter) {
     currentFilter = filter;
 
@@ -57,11 +53,10 @@ document.addEventListener("DOMContentLoaded", function () {
       let shouldShow = true;
 
       if (filter === "available") {
-        shouldShow = color === "#22c55e"; // Green only
+        shouldShow = color === "#22c55e";
       } else if (filter === "full") {
-        shouldShow = color === "#ef4444"; // Red only
+        shouldShow = color === "#ef4444";
       }
-      // If filter is null, show all
 
       map.setLayoutProperty(
         layerId,
@@ -76,26 +71,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Add these event listeners at the bottom of DOMContentLoaded (around line 550)
-
-  // Filter Modal - Open
   filterIcon.addEventListener("click", () => {
     filterModal.style.display = "flex";
   });
 
-  // Filter Modal - Close
   closeFilterModal.addEventListener("click", () => {
     filterModal.style.display = "none";
   });
 
-  // Close modal when clicking outside
   filterModal.addEventListener("click", (e) => {
     if (e.target === filterModal) {
       filterModal.style.display = "none";
     }
   });
 
-  // Apply Filter
   applyFilterBtn.addEventListener("click", () => {
     const selectedFilter = document.querySelector(
       'input[name="parkingFilter"]:checked'
@@ -106,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Clear Filter
   clearFilterBtn.addEventListener("click", () => {
     applyParkingFilter(null);
     document
@@ -117,8 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
     filterModal.style.display = "none";
   });
 
-  // Update the updateZoneAppearance function to respect filters (around line 250)
-  // Replace the existing updateZoneAppearance function with this:
   function updateZoneAppearance(locationId) {
     const markerObj = parkingMarkers.find((m) => m.location.id === locationId);
     if (!markerObj) return;
@@ -126,7 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const color = getMarkerColor(markerObj.location);
     map.setPaintProperty(markerObj.layerId, "circle-color", color);
 
-    // Re-apply filter if one is active
     if (currentFilter) {
       let shouldShow = true;
 
