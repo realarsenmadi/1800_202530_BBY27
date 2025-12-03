@@ -369,6 +369,40 @@ body {
   border: 1px solid #d93025;
 }
 
+.toast-notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #22c55e;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  min-width: 300px;
+}
+
+.toast-notification.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toast-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  margin-left: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
 /* Footer */
 .footer {
   text-align: center;
