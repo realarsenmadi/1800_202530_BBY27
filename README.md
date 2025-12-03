@@ -116,6 +116,9 @@ SureSpot/
 │   ├── Session.png
 │   └── placeholder.jpg
 ├── src/                        # JavaScript modules
+│   ├── components/             # Navbar and footer
+│   │   ├── site-footer.js
+│   │   └── site-navbar.js
 │   ├── main.js                 # Core map logic
 │   ├── authentication.js       # Firebase authentication
 │   ├── firebaseConfig.js       # Firebase initialization
@@ -127,10 +130,8 @@ SureSpot/
 ├── index.html                  # Landing page
 ├── main.html                   # Map interface
 ├── profile.html                # User profile
-├── favourites.html             # Saved locations
 ├── faq.html                    # Help center
 ├── login.html                  # Authentication
-├── map.html                    # Alternative map view
 ├── .env                        # Environment config (gitignored)
 ├── .gitignore
 ├── package.json
