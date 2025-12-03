@@ -41,6 +41,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentFilter = null;
 
+  // Toast Notification
+  function showToast(message) {
+    const toastNotification = document.getElementById("toastNotification");
+    const toastMessage = document.getElementById("toastMessage");
+    const toastCloseBtn = document.getElementById("toastCloseBtn");
+
+    toastMessage.textContent = message;
+
+    toastNotification.classList.add("show");
+
+    const timeoutId = setTimeout(() => {
+      toastNotification.classList.remove("show");
+    }, 4000);
+
+    toastCloseBtn.onclick = () => {
+      toastNotification.classList.remove("show");
+      clearTimeout(timeoutId);
+    };
+  }
+
   function applyParkingFilter(filter) {
     currentFilter = filter;
 
@@ -291,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         map.on("click", layerId, () => {
           if (location.status === "closed") {
-            alert(`${location.name} is currently closed for construction.`);
+            showToast(`${location.name} is currently closed for construction.`);
           } else {
             showReportModal(location);
           }
@@ -369,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const user = auth.currentUser;
     if (!user) {
-      alert("You must be logged in to submit a report!");
+      showToast("You must be logged in to submit a report!");
       return;
     }
     const reportModal = document.getElementById("reportModal");
@@ -395,9 +415,11 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (e) {
       console.error("Full Firebase Error:", e);
       if (e.code === "permission-denied") {
-        alert("Error: You do not have permission to write to the database.");
+        showToast(
+          "Error: You do not have permission to write to the database."
+        );
       } else {
-        alert(`Error submitting report: ${e.message}`);
+        showToast(`Error submitting report: ${e.message}`);
       }
     }
   }
@@ -435,11 +457,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // If user is within zone radius, prompt for report (only once per 10 minutes)
       if (distance < location.radius) {
-        const lastPrompt = sessionStorage.getItem(`lastPrompt-${location.id}`); // <--- ISSUE: SessionStorage
+        const lastPrompt = sessionStorage.getItem(`lastPrompt-${location.id}`);
         const now = Date.now();
 
         if (!lastPrompt || now - parseInt(lastPrompt) > 10 * 60 * 1000) {
-          localStorage.setItem(`lastPrompt-${location.id}`, now.toString()); // <--- ISSUE: localStorage used here
+          localStorage.setItem(`lastPrompt-${location.id}`, now.toString());
           showReportModal(location);
         }
       }
@@ -525,7 +547,7 @@ document.addEventListener("DOMContentLoaded", function () {
           },
           (error) => {
             console.error("Location error:", error);
-            alert("Could not get your location.");
+            showToast("Could not get your location.");
           },
           {
             enableHighAccuracy: true, // Faster but less accurate
@@ -535,7 +557,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }
     } else {
-      alert("Geolocation not supported.");
+      showToast("Geolocation not supported.");
     }
   });
 
@@ -647,17 +669,30 @@ document.addEventListener("DOMContentLoaded", function () {
       addFavBtn.style.marginLeft = "10px";
       addFavBtn.addEventListener("click", async (e) => {
         e.stopPropagation();
-        if (!auth.currentUser) return alert("Please log in first!");
+        if (!auth.currentUser) return showToast("Please log in first!");
         const favRef = collection(
           db,
           "users",
           auth.currentUser.uid,
           "favourites"
         );
+
+        const snapshot = await getDocs(favRef);
+        const alreadyExists = snapshot.docs.some(
+          (doc) => doc.data().address === feature.place_name
+        );
+
+        if (alreadyExists) {
+          return showToast("This address is already in your favourites!");
+        }
+
         await addDoc(favRef, {
           label: feature.text,
           address: feature.place_name,
         });
+
+        showToast(`${feature.text} was successfully added to your favourites!`);
+
         loadFavouritesToMain();
       });
 
@@ -671,20 +706,47 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function goToLocation(feature) {
-    const [lng, lat] = feature.center;
-    if (searchMarker) searchMarker.remove();
-    searchMarker = new maplibregl.Marker({ color: "#22c55e" })
-      .setLngLat([lng, lat])
-      .setPopup(new maplibregl.Popup().setHTML(`<b>${feature.place_name}</b>`))
-      .addTo(map);
-    map.flyTo({ center: [lng, lat], zoom: 16, duration: 2000 });
-    searchMarker.togglePopup();
-    searchModal.style.display = "none";
-    locationInput.value = "";
-    searchResults.innerHTML = "";
+    try {
+      console.log("Navigating to:", feature.place_name);
+
+      const [lng, lat] = feature.center;
+
+      if (searchMarker) {
+        searchMarker.remove();
+        searchMarker = null;
+      }
+
+      const popup = new maplibregl.Popup({ offset: 25 }).setHTML(
+        `<b>${feature.place_name}</b>`
+      );
+
+      const marker = new maplibregl.Marker({ color: "#22c55e" })
+        .setLngLat([lng, lat])
+        .setPopup(popup)
+        .addTo(map);
+
+      searchMarker = marker;
+
+      popup.on("close", () => {
+        if (searchMarker === marker) {
+          searchMarker.remove();
+          searchMarker = null;
+        }
+      });
+
+      map.flyTo({ center: [lng, lat], zoom: 16, duration: 2000 });
+      marker.togglePopup();
+
+      searchModal.style.display = "none";
+      locationInput.value = "";
+      searchResults.innerHTML = "";
+    } catch (error) {
+      console.error("Error in goToLocation:", error);
+      searchModal.style.display = "none";
+    }
   }
 
-  // ========== Favourites ==========
+  // Favourites
   onAuthStateChanged(auth, () => loadFavouritesToMain());
 
   async function loadFavouritesToMain() {
