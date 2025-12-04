@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SureSpot</title>
+    <style>
+      .navbar {
+        display: grid !important;
+        grid-template-columns: 1fr auto 1fr !important;
+        align-items: center;
+      }
+
+      .navbar > div:first-child {
+        justify-self: start;
+      }
+
+      .navbar > div:nth-child(2) {
+        justify-self: center;
+      }
+
+      .navbar > div:last-child {
+        justify-self: end;
+      }
+    </style>
+    <meta name="comp1800 template" content="My 1800 App" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- MapLibre GL JS -->
+    <link
+      href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+
+    <!-- Link to your styles -->
+    <script type="module" crossorigin src="/assets/main-DdBZajSt.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/assets/firebaseConfig-CLJOI27O.js">
+    <link rel="stylesheet" crossorigin href="/assets/style-DuyZIT3f.css">
+  </head>
+
+  <body class="main-page">
+    <!-- Navigation bar -->
+    <nav class="navbar">
+      <div>
+        <!--Last Updated-->
+        <div id="lastUpdatedDisplay">Last updated:…</div>
+      </div>
+      <div>
+        <h1 class="app-title">SureSpot</h1>
+      </div>
+      <div>
+        <a href="#">
+          <img src="/assets/home_icon-DQtWHZh5.png" alt="Home Icon" class="home-icon" />
+        </a>
+      </div>
+    </nav>
+    <!-- ========== Parking Availability Legend ========== -->
+    <div class="parking-legend">
+      <div class="legend-title">Parking Status</div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #22c55e"></div>
+        <span>Available</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #ef4444"></div>
+        <span>Full</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #f59e0b"></div>
+        <span>Closed</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #808080"></div>
+        <span>No Data</span>
+      </div>
+    </div>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Filters, My Location & Search (floating above map) -->
+    <div class="search-functions">
+      <!-- Filters -->
+      <div>
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABuSURBVHgB7daxDYAwEENRBzEIozBKmAxGYRQ2gUj0kQuk4+A/yVWuiDsXSacSG5QcBaKlL1BaqgAAf1WMm1Wxlt6jUyB6rXb/yBaKlr7AaNxsAgB8lbOFXFPLbN7uLYdepuoefk6qHsIWikaBaBegRRDVBxY+7AAAAABJRU5ErkJggg==" alt="Filter Icon" class="filter-icon" />
+      </div>
+
+      <!-- My Location -->
+      <div>
+        <img
+          src="/assets/Location-CbgCtk2a.png"
+          alt="My Location Button"
+          class="location-button"
+          id="locateBtn"
+        />
+      </div>
+
+      <!-- Search -->
+      <div>
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAvCAYAAAChd5n0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJTSURBVHgB7ZmBddowEIa/MEFGuBHYIO4EZYMwQjewO0GyAXQCXidwMgHpBGYD0glS3cN+UCrJRD6ZuC/fe/+DKFin093JsnzD+7l1WjjdOc3bv+Xk/7tWL07PTk9Or3wgdPC101uCNk4FV6Zwakhz4Fxb/o7eKGjKbLBx4FwlIyHYRWGU6Nzgd6Km30hXzPr5yrGg563uLuhj5/Sl/TRF6I/EissLV3+3pj8ytxjTkCcVFj19rzCkjBh6ZDjCYTJCNhYYIOR1okNTKORMg0GKrSKdWyNO+4C9bwwk1LGQh0XAXs0AQp2aFqCHGsPJmxFeSn+Ql5+B9uSi983MnvwIxpngq49BuXoN25paviXvN+Pge04REpgF2sdIrRBJD2GzwIVzxsGXDcmO7DztQn4Ew7RWR3552tVAQV6KQPsTCcwiF5ps4iLcB9pfSERn37eea8ELeSjItLcLbRc25KEh06axILyNL7HlgXA0BAMeye/MQ8TG4Gh0aK00EUM6CCENIX64t8UYvRHuIwbV0SWXo5NTXtCnMBDfcdCS/h3ojsOy/czxrLejuwd95Xg2HGPt9L39fnqsZILeQ2KzmEsm0TlHyHfaWBOerCzOKBXwZiQd+Onq1ER+l2XjKhxyOTVCOrCKf+ul6bkm6zZJO9d7zrZnEHX7uyLSV98qqbpnJKQdUNF+F96H0B/pkokgfDrzMRHitTcpZ2IH3Z1WTIg1cWf0Wcn8BVEuKuLOZHnblYuKuDMNV3jlnUpF3JGxzuFMqJh4NE5Z8h840aFpVDNxJ4L8AXwCGV/DzuGoAAAAAElFTkSuQmCC"
+          alt="Search Button"
+          class="search-button"
+          id="searchBtn"
+        />
+      </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="searchModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Search Location</h3>
+          <button id="closeModal">&times;</button>
+        </div>
+
+        <div class="search-input-container">
+          <input
+            type="text"
+            id="locationInput"
+            placeholder="Enter address or place name..."
+          />
+        </div>
+
+        <div id="searchResults"></div>
+      </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div id="filterModal">
+      <div class="filter-modal-content">
+        <div class="filter-modal-header">
+          <h3>Filter Parking Lots</h3>
+          <button id="closeFilterModal">&times;</button>
+        </div>
+
+        <div class="filter-options">
+          <label class="filter-option">
+            <input type="radio" name="parkingFilter" value="available" />
+            <span class="filter-label">
+              <span
+                class="filter-indicator"
+                style="background-color: #22c55e"
+              ></span>
+              Show Available Only
+            </span>
+          </label>
+
+          <label class="filter-option">
+            <input type="radio" name="parkingFilter" value="full" />
+            <span class="filter-label">
+              <span
+                class="filter-indicator"
+                style="background-color: #ef4444"
+              ></span>
+              Show Full Only
+            </span>
+          </label>
+        </div>
+
+        <div class="filter-buttons">
+          <button id="applyFilter" class="filter-btn apply-btn">
+            Apply Filter
+          </button>
+          <button id="clearFilter" class="filter-btn clear-btn">
+            Show All
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- ========== : Parking Report Modal ========== -->
+    <div id="reportModal" class="report-modal">
+      <div class="report-modal-content">
+        <button id="closeReportModal" class="close-report-btn">&times;</button>
+        <h2 class="report-modal-title">
+          ⚠️Safety Notice: Please do NOT use SureSpot while driving.
+        </h2>
+        <hr />
+        <h3 class="report-modal-title">🅿️ Parking Availability</h3>
+        <p id="modalLocationName" class="report-modal-text">
+          Are there parking spots available here?
+        </p>
+        <div class="report-button-group">
+          <button class="report-button available">✅ Available</button>
+          <button class="report-button full">❌ Full</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Favourites Modal -->
+    <div id="favouritesModal">
+      <div class="fav-modal-content">
+        <div class="fav-modal-header">
+          <h3>Your Favourites</h3>
+          <button id="closeFavourites">&times;</button>
+        </div>
+        <ul id="favouritesList"></ul>
+      </div>
+    </div>
+
+    <div id="toastNotification" class="toast-notification">
+      <span id="toastMessage"></span>
+      <button id="toastCloseBtn" class="toast-close-btn">×</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <nav class="bottom-nav">
+        <div>
+          <a href="profile.html">
+            <img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAH/SURBVHgBzVmLccIwDH3pBIzgTkA2aEbxBs0GZAPYIGzACIEN6AShE8AG1KJKCdQOlvK5vLt3hCOSnmVb/pBAj8wxdfzgzwWTcHE8Mb8c98zRQQJWjmfHq5C1Y+loMAJI2FohKsRBhX5Cl7GYjFr0xJBZC3ENBahLqwnENaxwn2BRmFJcW2QUpuhWdXdbhVOaQAUeZ2XKvmqFvzwkzigcbtE9dui3jaLBXp+l0NEG8dgKff/raiN0UEM26+hdaS198F8KjS3kKIQxirZxLTROIYcRxjg3hpnQ8Ao9pHGyNxY4V6QkcAk5DOTQDItbBg3ksJBDI/CWPM1WKlhMA6B3a2UcsVHDEvHos76rDa8c+NVSV/aM0Xu3XON3TLbHmIH+7PLQxQkHMJgnjjSLj5gvvkngAfPF7DO4T/hBWtduxrjfGlAjL0ywL8Nsbh8yyHByfG++FIgvnAXkjQGLtYgv2GXbeBEhLMdwsBFCzbNR6Oywgy5jr2AQPgqUPgPftvyMcWuk8cTsrMs5/CuFwfAw8HezfWW4mUCkgV9c9Emxgn9srNAfoduySuKk6/KIWm4hA/nLEZ65FZQTsetWgLKwY7HZUwB6TllUie5djeQCwAsL3W44pugPVlsN5NcXXaSsjVFb/4RqMqpaJhPokTGXuG8M2n9DEGkTceDPPRT4ASEqp0hrexcAAAAAAElFTkSuQmCC"
+              alt="Profile Icon"
+              class="profile-icon"
+            />
+          </a>
+        </div>
+        <div>
+          <a href="#" id="openFavourites">
+            <img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAkCAYAAACaJFpUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACbSURBVHgB7ddhCYRAGITh8RJchI3iNbgIRjGCDdQERjCCEYygDXTEVQRlWRdcEGbg/euD378F1hnWsoFND9RYY8eego4NG1pGwLbaxMpfxNmYWDnaPog8gQIFChQoUKBAgQLfCI6sYj9bjYD5vnxyXL9BDCtY7/kt92uH/eG/jHV3weVvSpYifCnW0ztB19lCZ3A+9+2zhS5j3QyIHYzDxYPE+AAAAABJRU5ErkJggg=="
+              alt="Favourites Icon"
+              class="favourites-icon"
+            />
+          </a>
+        </div>
+        <div>
+          <a href="faq.html">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAxCAYAAABqF6+6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAQjSURBVHgB7Vpdi01RGH7OIMwwUnKlZiTG+Ehxg1Jj3MiEI5dK+AUUSqb4D6S40VxQ0sSVOyLChWLMjGIo40IJF2PMHDHmeN/2ettrln3OXmvvvfY505ynns5p7b3fr7XWuz6BBhqY05iH/FCIKGuq8m4BOWA+/IGdKysy2ondxB3ELcSVxBbiNLFE/Ep8RXxGvE/8qL6TQJQxS6DXXivxDHEUgaNlB/I354jLIuTWLaRJLyZeIf5G6JBrAIR/lKxFho66AteMGHYQQZNO47TOv+qXZRaVjjxzVyx0529iptFZUoJ5S+lqQh10iYJmyADinY9rEXHPRfag0l/T7qDX/Ajindebch9xP3EDsZN4QJWVHOS8U7prFgRRzMOWrdGczBZWkcnPrjrIe2zYkhtE4QXYG3tY+zaq7+ot6oj6ZspCbq9hUy5gY9fA3vmzCI2sNJ5LuTjS6yC/DTVIiMOonrCE0ldNB08gmPE9IB6v8M4nSx2vte9zwR7E146wqBnH5DF8KOK9YfVMd+KQhXyxoQs5BEAU2Nb+L+JyQ0Yf/g+eDH/XDV2tSoaNrgHDRi/Q+77NLG80QsZElfcnEUyjdXy20CPBbIdjAFxXg6zkqPpvo2gF8RqCmmRw326u8j47z3P+klY2hXhIzjhGvAhPcG3+cbVlklsUL4n1eT5X0HcH2d67Aa/fS8hmkRMVlJOaLq7VTkcZbFszPKID7s7ZOn9b6dBHgnsJ5HXAI3oSGGTj/F0lvwlhfy4a79hyHxzgOn1ciuwwrfRzLRcR2sLl24l3EDjkamOry8uuwluQHVg3J9QezHR+G8IFVpJk5mSj6zA4gezAznYhcLKsytYSXyC58wwnG11bwDiyA88PviEMACe/5+pZmmHsBzxiPbJLgFsx09HTCOcDaeSug0fwGMtjbdo9P57fmwn1ZUqZbNMkHOcBLl2goBS8R/rNB97qHjfsWIV0YBkfENho3YVckqAkqn7iJqQD692L8NCDg7EE6dGvfsvwBI7saoRNLmlznbIsc2n+ZWWb9+UwYxDJjfXFIcNGb2AF3UjfCkwmzf5iw24kQJJoybjN+3CbkQzs7EOEW+ScFHch+ZHXG+JG5AgOQhuS992xCJljSF773vu+CRkGzxuG2PIncYEmb74qS+J8Tc4FdIWP4B4EdlYfgl0DILqeGLbkDlH8Fm5B4AVLO4LNC2Ybqm+WRjk/onSbW+m5Q4JgczosTDoPENmsq4A6uTWin+TInn/We4a68zeUrrq4H6BDgsBH3dKcs5gnSDAnlWxGzZt9JUgQOKldRjC+m464ku8ZXUJ4YFKXjuvQuwQvdk4hWKW51jofjPItMVk2e2nyPqNp3u9rRzCF3onwnqCs3bnLfEGwxniK4NR4tIKcWYlqdwLq8tpbAw3MEfwDTsGUe2aYljQAAAAASUVORK5CYII=" alt="Help Icon" class="help-icon" />
+          </a>
+        </div>
+      </nav>
+    </footer>
+
+    <!-- Load main script -->
+  </body>
+</html>

@@ -809,6 +809,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Close report modal functionality
   document.getElementById("closeReportModal").addEventListener("click", () => {
-    document.getElementById("reportModal").style.display = "none";
+    // 👇 CHANGE THIS LINE 👇
+    document.getElementById("reportModal").classList.remove("active");
   });
 });

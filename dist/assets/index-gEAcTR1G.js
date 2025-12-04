@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";/* empty css              */document.addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("loginBtn"),n=document.getElementById("guestBtn");t.addEventListener("click",()=>{window.location.href="login.html"}),n.addEventListener("click",()=>{window.location.href="main.html"})});
