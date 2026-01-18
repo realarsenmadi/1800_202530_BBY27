@@ -160,7 +160,6 @@ All environment variables must be prefixed with `VITE_` for Vite to expose them 
 | **Salahuddin Yunus** | Developer | Has 3 kitty cats! |
 | **Kenny Fok** | Developer | Has visited 10+ countries |
 | **Arsen Madi** | Developer | Speaks 4 languages |
-| **Avery Robillo** | Developer | Former Tetris competitive player (2022-2024) |
 
 ---
 
